@@ -1,0 +1,9 @@
+namespace: dev
+bases:
+- ../../bases
+patchesStrategicMerge:
+- client/service-patch.yaml
+images:
+- name: client
+  newName: asia.gcr.io/two_choices_dev/client
+  newTag: "latest"

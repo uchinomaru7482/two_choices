@@ -1,0 +1,40 @@
+name: client_build
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    env:
+      SERVICE_NAME: client
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          version: '286.0.0'
+          service_account_email: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+          service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Configure docker
+        run: gcloud auth configure-docker --quiet
+        
+      - name: Build image
+        run: >
+          docker build
+          -t asia.gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME:${{ github.sha }}
+          -t asia.gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME .
+          -f ./docker/two_choices_client/Dockerfile.dev
+
+      - name: Push image
+        run: |
+          docker push asia.gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME:${{ github.sha }}
+          docker push asia.gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME:latest

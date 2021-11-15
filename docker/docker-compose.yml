@@ -1,0 +1,98 @@
+version: "3.8"
+
+x-app-environment: &app_environment
+  # DB
+  # .envファイルを作成することで環境変数として呼び出せる
+  MASTER_DB_HOST: ${MASTER_DB_HOST}
+  SLAVE_DB_HOST: ${SLAVE_DB_HOST}
+  DB_PORT: ${DB_PORT}
+  DB_NAME: ${DB_NAME}
+  DB_USER: ${DB_USER}
+  DB_PASSWORD: ${DB_PASSWORD}
+
+  # Redis
+  CACHE_HOST: ${CACHE_HOST}
+  CACHE_PORT: ${CACHE_PORT}
+  CACHE_MAX_IDLE: ${CACHE_MAX_IDLE}
+  CACHE_MAX_ACTIVE: ${CACHE_MAX_ACTIVE}
+  CACHE_IDLE_TIMEOUT: ${CACHE_IDLE_TIMEOUT}
+
+  #FirebaseAdminSDK
+  FIREBASE_CREDENTIAL_PATH: ${FIREBASE_CREDENTIAL_PATH}
+
+  #SendGrid
+  SEND_GRID_API_KEY: ${SEND_GRID_API_KEY}
+
+services:
+  app_db:
+    build:
+      context: ./../
+      dockerfile: ./docker/mysql/Dockerfile
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - two_choices_net
+
+  cache:
+    image: redis:5.0
+    # 明示的にstopされない限り終了ステータスに関係なく再起動する
+    restart: always
+    # 下のvolumesで保存領域を定義して、各コンテナに割り当てる
+    volumes:
+      - redis:/data
+    ports:
+      - 6379:6379
+    networks:
+      - two_choices_net
+
+  two_choices_server:
+    build:
+      context: ./../
+      dockerfile: ./docker/two_choices_server/Dockerfile
+    # コンテナへの環境変数の受け渡し
+    environment: *app_environment
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./../two_choices_server:/app:z
+    ports:
+      - 9090:9090
+    networks:
+      - two_choices_net
+    command: air
+
+  two_choices_client:
+    build:
+      context: ./../
+      dockerfile: ./docker/two_choices_client/Dockerfile
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./../two_choices_client:/app
+    ports:
+      - 3000:3000
+    networks:
+      - two_choices_net
+
+  envoy:
+    image: grpcweb/envoy:1.2.1
+    volumes:
+      - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
+    ports:
+      - "8080:8080"
+    networks:
+      - two_choices_net
+
+networks: #コンテナ間の通信を行うためのもの、サービス名指定でIPを意識せずコンテナ間通信ができる
+  two_choices_net:
+    driver: bridge #Linuxのブリッジ機能を使うブリッジ・ネットワークで、コンテナ内からの通信はインターネット側にルーティングされる
+
+# Dockerイメージを構成するイメージ・レイヤの制約を受けることなくコンテナ内のファイルシステム上に存在する領域であり、Dockerコンテナやイメージとは独立し、Dockerホスト上のファイルシステムと直接やりとりできる
+volumes:
+  mysql:
+  redis:

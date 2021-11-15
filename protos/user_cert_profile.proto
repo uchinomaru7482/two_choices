@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package two_choices;
+
+option go_package = "./;gen_grpc";
+
+service UserCertProfileService {
+  rpc GetProfile (UserCertProfile.GetProfileRequest) returns (UserCertProfile.GetProfileResponse);
+}
+
+message UserCertProfile {
+  message GetProfileRequest {
+    uint64 id = 1;
+  }
+
+  message GetProfileResponse {
+    string name = 1;
+    string email = 2;
+  }
+}

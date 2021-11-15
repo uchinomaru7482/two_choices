@@ -1,0 +1,4 @@
+resources:
+- client/deployment.yaml
+- client/service.yaml
+- ./ingress.yaml

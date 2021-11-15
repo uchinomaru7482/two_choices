@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package two_choices;
+
+option go_package = "./;gen_grpc";
+
+service UserAuthenticationService {
+  rpc SendVerificationMail (UserAuthentication.SendVerificationMailRequest) returns (UserAuthentication.SendVerificationMailResponse); // 会員登録確認メール送信
+  rpc UserRegistration (UserAuthentication.UserRegistrationRequest) returns (UserAuthentication.UserRegistrationResponse); // 会員登録
+}
+
+message UserAuthentication {
+  enum SendVerificationMailResult {
+    SEND_MAIL_SUCCESS = 0; // 送信完了
+    ALREADY_EXISTS_ADDRESS = 1; // 既に使用されているメールアドレス
+  }
+
+  // 会員登録確認メール送信リクエスト
+  message SendVerificationMailRequest {
+    string name = 1; // 名前
+    string email = 2; // メールアドレス
+  }
+
+  // 会員登録確認メール送信レスポンス
+  message SendVerificationMailResponse {
+    SendVerificationMailResult result = 1; // メール送信結果
+  }
+
+  // 会員登録結果
+  enum UserRegistrationResult {
+    USER_REGISTRATION_SUCCESS = 0; // 登録完了
+    TIMEOUT = 1; // 時間切れ
+    INCORRECT_STATE = 2; // 不正なstate
+  }
+
+  // 会員登録リクエスト
+  message UserRegistrationRequest {
+    string state = 1; // state
+  }
+
+  // 会員登録レスポンス
+  message UserRegistrationResponse {
+    UserRegistrationResult result = 1; // 登録結果
+  }
+}

@@ -1,0 +1,5 @@
+./two_choices_server/tmp/
+./two_choices_server/configs/secret/two-choices-firebase-adminsdk-16w2g-2c609b5149.json
+
+.DS_store
+*.env

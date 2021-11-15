@@ -1,0 +1,7 @@
+# sql-migrateをDBに接続するための設定
+development:
+  dialect: mysql
+  dir: migrations
+  # parseTImeの設定でtime.Timeの時間を変換している?
+  datasource: $DB_USER:$DB_PASSWORD@tcp($MASTER_DB_HOST)/$DB_NAME?parseTime=true
+  table: _migrations
