@@ -1,5 +1,5 @@
-./two_choices_server/tmp/
-./two_choices_server/configs/secret/
+two_choices_server/tmp/
+two_choices_server/configs/secret/
 
 .DS_store
 *.env
