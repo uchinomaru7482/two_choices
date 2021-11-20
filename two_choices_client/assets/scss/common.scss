@@ -13,7 +13,7 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: 100vh;
+  height: 95vh;
   color: #fff;
 }
 
@@ -40,6 +40,20 @@
   font-family: 'Josefin Sans', sans-serif;
   text-align: center;
 
+  .next-count {
+    display: block;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+    font-size: 30px;
+    font-weight: 600;
+    border-style: solid;
+    border-radius: 50%;
+    color: var(--white);
+    background-color: var(--gray);
+  }
+
   .question, .answer {
     padding: 0 0 1.5rem 0;
     font-size: 5vw;
@@ -50,7 +64,7 @@
     padding: 0;
     font-size: 2.5vw;
     font-weight: 500;
-    color: var(--percent-color);
+    color: var(--white);
   }
 
   .ans-img {
@@ -75,18 +89,18 @@
   }
 }
 
-.content span {
+.content p {
   display: block;
   opacity: 0;
   transition: transform cubic-bezier(0.215, 0.61, 0.355, 1) 1s, opacity linear 0.7s;
 }
 
-.content span:first-child {
+.content p:first-child {
   transform: translate(0, 40px);
   transition-delay: 0.25s;
 }
 
-.bg.-visible .content span {
+.bg.-visible .content p {
   opacity: 1;
   transform: translate(0, 0);
 }
