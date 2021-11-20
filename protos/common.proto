@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package two_choices;
+
+option go_package = "./;gen_grpc";
+
+// empty
+message Empty {}

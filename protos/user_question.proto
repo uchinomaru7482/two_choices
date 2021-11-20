@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package two_choices;
+
+option go_package = "./;gen_grpc";
+
+import "common.proto";
+
+// ユーザが質問を操作するサービス
+service UserQuestionService {
+  rpc GetRandom (Empty) returns (UserQuestion.GetRandomResponse); // 質問ランダム取得
+}
+
+// 質問
+message UserQuestion {
+  // 質問ランダム取得レスポンス
+  message GetRandomResponse {
+    string title = 1;
+    string first_answer = 2;
+    string second_answer = 3;
+    uint64 first_count = 4;
+    uint64 second_count = 5;
+  }
+}
