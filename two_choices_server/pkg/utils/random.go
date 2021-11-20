@@ -2,6 +2,7 @@ package utils
 
 import (
 	"crypto/rand"
+	"math/big"
 
 	"github.com/pkg/errors"
 )
@@ -26,4 +27,14 @@ func randomString(digit uint32, letters string) (string, error) {
 		randStr += string(letters[int(v)%len(letters)])
 	}
 	return randStr, nil
+}
+
+// ランダムな数値を生成する
+func GenerateRandomInt(max int64) (int64, error) {
+	num, err := rand.Int(rand.Reader, big.NewInt(max))
+	if err != nil {
+		return 0, errors.WithStack(err)
+	}
+	convNum := num.Int64() + 1
+	return convNum, nil
 }
