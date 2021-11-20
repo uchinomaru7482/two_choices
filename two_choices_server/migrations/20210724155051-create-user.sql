@@ -12,4 +12,17 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `questions` (
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `created_at` DATETIME NULL DEFAULT NULL,
+  `updated_at` DATETIME NULL DEFAULT NULL,
+  `deleted_at` DATETIME NULL DEFAULT NULL,
+  `title` VARCHAR(255) NOT NULL,
+  `first_answer` VARCHAR(255) NOT NULL,
+  `second_answer` VARCHAR(255) NOT NULL,
+  `first_count` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+  `second_count` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+);
+
 -- +migrate Down
