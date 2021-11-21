@@ -22,6 +22,8 @@ CREATE TABLE `questions` (
   `second_answer` VARCHAR(255) NOT NULL,
   `first_count` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
   `second_count` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+  `first_img_url` VARCHAR(255) NOT NULL,
+  `second_img_url` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`)
 );
 

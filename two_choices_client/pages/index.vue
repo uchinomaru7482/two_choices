@@ -1,11 +1,8 @@
 <template>
   <div :class="'main-field bg ' + addClassVisible" :style="style">
-    <!-- {{ question.getTitle() }}<br>
-    {{ question.getFirstAnswer() }}<br>
-    {{ question.getSecondAnswer() }}<br> -->
     <span class="content">
       <p class="next-count">{{ nextCount }}</p>
-      <p class="question">あなたはどっち派？</p>
+      <p class="question">{{ question.getTitle() }}</p>
       <v-row>
         <v-col
           class="percent"
@@ -25,13 +22,13 @@
           class="answer"
           cols="6"
         >
-          いぬ
+          {{ question.getFirstAnswer() }}
         </v-col>
         <v-col
           class="answer"
           cols="6"
         >
-          ねこ
+          {{ question.getSecondAnswer() }}
         </v-col>
       </v-row>
       <v-row>
@@ -78,15 +75,18 @@ export default class Home extends Vue {
   private selected = 0
   private percent = 50
   private afterPercent = 50
+  private nextCount = 3
   private resultTimer: NodeJS.Timeout | null = null
+  private nextTimer: NodeJS.Timeout | null = null
   private whiteColor = 'rgba(255,255,255,0)'
   private grayColor = 'rgba(200,200,200,0)'
-  private nextCount = 3
-  private nextTimer: NodeJS.Timeout | null = null
 
-  private async created () {
+  private async asyncData () {
     try {
-      this.question = await userQuestionService.GetRandom()
+      const res = await userQuestionService.GetRandom()
+      return {
+        question: res
+      }
     } catch (err: any) {
     }
   }
