@@ -8,13 +8,13 @@
           class="percent"
           cols="6"
         >
-          20%(20票)
+          {{ afterFirstPercent }}%({{ question.getFirstCount() }}票)
         </v-col>
         <v-col
           class="percent"
           cols="6"
         >
-          80%(80票)
+          {{ 100 - afterFirstPercent }}%({{ question.getSecondCount() }}票)
         </v-col>
       </v-row>
       <v-row>
@@ -66,20 +66,22 @@ import * as userQuestionService from '@/services/user_question'
 
 const CLASSNAME = '-visible'
 const OPAQUE_WHITE_COLOR = 'rgba(255,255,255,100)'
+const TRANSPARENT_WHITE_COLOR = 'rgba(255,255,255,0)'
 const OPAQUE_GRAY_COLOR = 'rgba(200,200,200,100)'
+const TRANSPARENT_GRAY_COLOR = 'rgba(200,200,200,0)'
 
 @Component
 export default class Home extends Vue {
   private question: userQuestionPb.UserQuestion.GetRandomResponse | null = null
   private addClassVisible = ''
   private selected = 0
-  private percent = 50
-  private afterPercent = 50
-  private nextCount = 3
+  private firstPercent = 50
+  private afterFirstPercent = 50
+  private nextCount = 5
   private resultTimer: NodeJS.Timeout | null = null
   private nextTimer: NodeJS.Timeout | null = null
-  private whiteColor = 'rgba(255,255,255,0)'
-  private grayColor = 'rgba(200,200,200,0)'
+  private whiteColor = TRANSPARENT_WHITE_COLOR
+  private grayColor = TRANSPARENT_GRAY_COLOR
 
   private async asyncData () {
     try {
@@ -97,43 +99,38 @@ export default class Home extends Vue {
 
   private get style (): any {
     return {
-      '--percent': String(this.percent) + '%',
+      '--percent': String(this.firstPercent) + '%',
       '--white': this.whiteColor,
       '--gray': this.grayColor
     }
   }
 
-  @Watch('afterPercent')
-  private watchPercent () {
-    this.resultTimer = setInterval(this.dispResult, 10);
-  }
-
   // 結果表示
   private dispResult () {
-    if (this.percent === this.afterPercent) {
+    if (this.firstPercent === this.afterFirstPercent) {
       clearInterval(this.resultTimer as NodeJS.Timeout)
       this.whiteColor = OPAQUE_WHITE_COLOR
       this.grayColor = OPAQUE_GRAY_COLOR
       this.nextTimer = setInterval(this.nextQuestion, 1000);
-    } else if (this.percent > this.afterPercent) {
-      this.percent -= 0.5
-    } else if (this.percent < this.afterPercent) {
-      this.percent += 0.5
+    } else if (this.firstPercent > this.afterFirstPercent) {
+      this.firstPercent -= 0.5
+    } else if (this.firstPercent < this.afterFirstPercent) {
+      this.firstPercent += 0.5
     }
   }
 
-  // 3秒後に次の質問へ行く為のタイマ
-  private nextQuestion () {
-    if (this.nextCount <= 0) {
+  // 5秒後に次の質問へ行く為のタイマ
+  private async nextQuestion () {
+    if (this.nextCount < 1) {
       clearInterval(this.nextTimer as NodeJS.Timeout)
-      location.reload()
+      this.refresh()
+      return
     }
     this.nextCount -= 1
   }
 
   private selectFirst () {
     this.selected = 1
-    this.afterPercent = 20
     this.updateResult()
   }
 
@@ -143,7 +140,29 @@ export default class Home extends Vue {
   }
 
   private updateResult () {
+    this.calculationResult()
+  }
 
+  private calculationResult () {
+    const firstCount = this.question!.getFirstCount()
+    const totalCount = this.question!.getFirstCount() + this.question!.getSecondCount()
+    this.afterFirstPercent = Math.round(firstCount / totalCount * 100)
+    this.resultTimer = setInterval(this.dispResult, 10);
+  }
+
+  private async refresh () {
+    this.addClassVisible = ''
+    this.question = await userQuestionService.GetRandom()
+    this.firstPercent = 50
+    this.afterFirstPercent = 50
+    this.whiteColor = TRANSPARENT_WHITE_COLOR
+    this.grayColor = TRANSPARENT_GRAY_COLOR
+    this.nextCount = 5
+    setTimeout(this.setClass, 700)
+  }
+
+  private setClass () {
+    this.addClassVisible = CLASSNAME
   }
 }
 </script>
