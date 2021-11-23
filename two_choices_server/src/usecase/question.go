@@ -15,6 +15,7 @@ const getRandomRetryCount uint32 = 5
 
 type QuestionUseCase interface {
 	GetRandom(ctx context.Context, scope *rdb.SessionScope) (*domain.Question, error)
+	Update(ctx context.Context, scope *rdb.SessionScope, id uint64, isFirstSelected bool) error
 }
 
 type questionUseCase struct {
@@ -51,4 +52,20 @@ func (qu questionUseCase) GetRandom(ctx context.Context, scope *rdb.SessionScope
 		return domQuestion, nil
 	}
 	return nil, errors.New("get question faild")
+}
+
+func (qu questionUseCase) Update(ctx context.Context, scope *rdb.SessionScope, id uint64, isFirstSelected bool) error {
+	domQuestion, err := qu.questionRepository.GetByID(scope, id)
+	if err != nil {
+		return err
+	}
+	if isFirstSelected {
+		domQuestion.FirstCount += 1
+	} else {
+		domQuestion.SecondCount += 1
+	}
+	if err := qu.questionRepository.Save(scope, domQuestion); err != nil {
+		return err
+	}
+	return nil
 }

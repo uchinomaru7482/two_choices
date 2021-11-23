@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import * as userQuestionPb from '@/generated/user_question_pb'
 import * as userQuestionService from '@/services/user_question'
 
@@ -71,7 +71,7 @@ const TRANSPARENT = '0'
 @Component
 export default class Home extends Vue {
   private question: userQuestionPb.UserQuestion.GetRandomResponse | null = null
-  private selected = 0
+  private isFirstSelected = false
   private firstCount = 0
   private secondCount = 0
   private firstPercent = 50
@@ -109,27 +109,30 @@ export default class Home extends Vue {
   }
 
   private selectFirst () {
-    this.selected = 1
+    this.isFirstSelected = true
     this.updateResult()
   }
 
   private selectSecond () {
-    this.selected = 2
+    this.isFirstSelected = false
     this.updateResult()
   }
 
-  private updateResult () {
-    // 質問データの更新
-
+  // 質問情報の更新
+  private async updateResult () {
+    try {
+      await userQuestionService.Update(this.question!.getId(), this.isFirstSelected)
+    } catch (err: any) {
+    }
     this.calculationResult()
   }
 
   // 表示結果の計算
   private calculationResult () {
-    if (this.selected === 1) {
+    if (this.isFirstSelected) {
       this.firstCount = this.question!.getFirstCount() + 1
       this.secondCount = this.question!.getSecondCount()
-    } else if (this.selected === 2) {
+    } else {
       this.firstCount = this.question!.getFirstCount()
       this.secondCount = this.question!.getSecondCount() + 1
     }

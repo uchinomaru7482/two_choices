@@ -7,3 +7,10 @@ export const GetRandom = async (): Promise<UserQuestion.GetRandomResponse> => {
   const req = new commonPb.Empty()
   return common.CallAPI(UserQuestionService.GetRandom, req)
 }
+
+export const Update = async (id: number, isFirstSelected: boolean): Promise<commonPb.Empty> => {
+  const req = new UserQuestion.UpdateRequest()
+  req.setId(id)
+  req.setIsFirstSelected(isFirstSelected)
+  return common.CallAPI(UserQuestionService.Update, req)
+}
