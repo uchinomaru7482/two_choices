@@ -65,10 +65,8 @@ import * as userQuestionPb from '@/generated/user_question_pb'
 import * as userQuestionService from '@/services/user_question'
 
 const CLASSNAME = '-visible'
-const OPAQUE_WHITE_COLOR = 'rgba(255,255,255,100)'
-const TRANSPARENT_WHITE_COLOR = 'rgba(255,255,255,0)'
-const OPAQUE_GRAY_COLOR = 'rgba(200,200,200,100)'
-const TRANSPARENT_GRAY_COLOR = 'rgba(200,200,200,0)'
+const OPAQUE = '100'
+const TRANSPARENT = '0'
 
 @Component
 export default class Home extends Vue {
@@ -80,8 +78,7 @@ export default class Home extends Vue {
   private nextCount = 5
   private resultTimer: NodeJS.Timeout | null = null
   private nextTimer: NodeJS.Timeout | null = null
-  private whiteColor = TRANSPARENT_WHITE_COLOR
-  private grayColor = TRANSPARENT_GRAY_COLOR
+  private transparency = TRANSPARENT
 
   private async asyncData () {
     try {
@@ -94,14 +91,13 @@ export default class Home extends Vue {
   }
 
   private mounted () {
-    this.addClassVisible = CLASSNAME
+    this.setClass()
   }
 
   private get style (): any {
     return {
       '--percent': String(this.firstPercent) + '%',
-      '--white': this.whiteColor,
-      '--gray': this.grayColor
+      '--transparency': this.transparency,
     }
   }
 
@@ -109,8 +105,7 @@ export default class Home extends Vue {
   private dispResult () {
     if (this.firstPercent === this.afterFirstPercent) {
       clearInterval(this.resultTimer as NodeJS.Timeout)
-      this.whiteColor = OPAQUE_WHITE_COLOR
-      this.grayColor = OPAQUE_GRAY_COLOR
+      this.transparency = OPAQUE
       this.nextTimer = setInterval(this.nextQuestion, 1000);
     } else if (this.firstPercent > this.afterFirstPercent) {
       this.firstPercent -= 0.5
@@ -140,6 +135,10 @@ export default class Home extends Vue {
   }
 
   private updateResult () {
+    // 質問データの更新
+
+    // 表示結果の計算
+    // 選択した方のcountを＋1して表示する
     this.calculationResult()
   }
 
@@ -155,8 +154,7 @@ export default class Home extends Vue {
     this.question = await userQuestionService.GetRandom()
     this.firstPercent = 50
     this.afterFirstPercent = 50
-    this.whiteColor = TRANSPARENT_WHITE_COLOR
-    this.grayColor = TRANSPARENT_GRAY_COLOR
+    this.transparency = TRANSPARENT
     this.nextCount = 5
     setTimeout(this.setClass, 700)
   }
