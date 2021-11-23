@@ -8,4 +8,6 @@ type Question struct {
 	SecondAnswer string
 	FirstCount   uint64
 	SecondCount  uint64
+	FirstImgURL  string
+	SecondImgURL string
 }

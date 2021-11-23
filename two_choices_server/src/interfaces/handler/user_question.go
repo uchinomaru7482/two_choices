@@ -45,5 +45,7 @@ func (uqh userQuestionHandler) GetRandom(ctx context.Context, in *pb.Empty) (*pb
 		SecondAnswer: domQuestion.SecondAnswer,
 		FirstCount:   domQuestion.FirstCount,
 		SecondCount:  domQuestion.SecondCount,
+		FirstImgUrl:  domQuestion.FirstImgURL,
+		SecondImgUrl: domQuestion.SecondImgURL,
 	}, nil
 }

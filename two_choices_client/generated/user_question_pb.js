@@ -198,7 +198,9 @@ proto.two_choices.UserQuestion.GetRandomResponse.toObject = function(includeInst
     firstAnswer: jspb.Message.getFieldWithDefault(msg, 2, ""),
     secondAnswer: jspb.Message.getFieldWithDefault(msg, 3, ""),
     firstCount: jspb.Message.getFieldWithDefault(msg, 4, 0),
-    secondCount: jspb.Message.getFieldWithDefault(msg, 5, 0)
+    secondCount: jspb.Message.getFieldWithDefault(msg, 5, 0),
+    firstImgUrl: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    secondImgUrl: jspb.Message.getFieldWithDefault(msg, 7, "")
   };
 
   if (includeInstance) {
@@ -254,6 +256,14 @@ proto.two_choices.UserQuestion.GetRandomResponse.deserializeBinaryFromReader = f
     case 5:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setSecondCount(value);
+      break;
+    case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFirstImgUrl(value);
+      break;
+    case 7:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSecondImgUrl(value);
       break;
     default:
       reader.skipField();
@@ -316,6 +326,20 @@ proto.two_choices.UserQuestion.GetRandomResponse.serializeBinaryToWriter = funct
   if (f !== 0) {
     writer.writeUint64(
       5,
+      f
+    );
+  }
+  f = message.getFirstImgUrl();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
+      f
+    );
+  }
+  f = message.getSecondImgUrl();
+  if (f.length > 0) {
+    writer.writeString(
+      7,
       f
     );
   }
@@ -409,6 +433,42 @@ proto.two_choices.UserQuestion.GetRandomResponse.prototype.getSecondCount = func
  */
 proto.two_choices.UserQuestion.GetRandomResponse.prototype.setSecondCount = function(value) {
   return jspb.Message.setProto3IntField(this, 5, value);
+};
+
+
+/**
+ * optional string first_img_url = 6;
+ * @return {string}
+ */
+proto.two_choices.UserQuestion.GetRandomResponse.prototype.getFirstImgUrl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.two_choices.UserQuestion.GetRandomResponse} returns this
+ */
+proto.two_choices.UserQuestion.GetRandomResponse.prototype.setFirstImgUrl = function(value) {
+  return jspb.Message.setProto3StringField(this, 6, value);
+};
+
+
+/**
+ * optional string second_img_url = 7;
+ * @return {string}
+ */
+proto.two_choices.UserQuestion.GetRandomResponse.prototype.getSecondImgUrl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.two_choices.UserQuestion.GetRandomResponse} returns this
+ */
+proto.two_choices.UserQuestion.GetRandomResponse.prototype.setSecondImgUrl = function(value) {
+  return jspb.Message.setProto3StringField(this, 7, value);
 };
 
 

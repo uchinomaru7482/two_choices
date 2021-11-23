@@ -35,6 +35,12 @@ export namespace UserQuestion {
     getSecondCount(): number;
     setSecondCount(value: number): void;
 
+    getFirstImgUrl(): string;
+    setFirstImgUrl(value: string): void;
+
+    getSecondImgUrl(): string;
+    setSecondImgUrl(value: string): void;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): GetRandomResponse.AsObject;
     static toObject(includeInstance: boolean, msg: GetRandomResponse): GetRandomResponse.AsObject;
@@ -52,6 +58,8 @@ export namespace UserQuestion {
       secondAnswer: string,
       firstCount: number,
       secondCount: number,
+      firstImgUrl: string,
+      secondImgUrl: string,
     }
   }
 }

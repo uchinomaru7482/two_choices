@@ -37,7 +37,7 @@
           cols="6"
         >
           <img 
-            src="@/static/images/answer_image/dog.png"
+            :src="question.getFirstImgUrl()"
             class="ans-img"
             alt="回答1"
             @click="selectFirst()"
@@ -48,7 +48,7 @@
           cols="6"
         >
           <img 
-            src="@/static/images/answer_image/cat.png"
+            :src="question.getSecondImgUrl()"
             class="ans-img"
             alt="回答2"
             @click="selectSecond()"

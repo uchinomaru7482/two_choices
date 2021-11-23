@@ -20,5 +20,7 @@ message UserQuestion {
     string second_answer = 3;
     uint64 first_count = 4;
     uint64 second_count = 5;
+    string first_img_url = 6;
+    string second_img_url = 7;
   }
 }
