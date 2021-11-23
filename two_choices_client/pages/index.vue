@@ -8,13 +8,13 @@
           class="percent"
           cols="6"
         >
-          {{ afterFirstPercent }}%({{ question.getFirstCount() }}票)
+          {{ afterFirstPercent }}%({{ firstCount }}票)
         </v-col>
         <v-col
           class="percent"
           cols="6"
         >
-          {{ 100 - afterFirstPercent }}%({{ question.getSecondCount() }}票)
+          {{ afterSecondPercent }}%({{ secondCount }}票)
         </v-col>
       </v-row>
       <v-row>
@@ -71,13 +71,20 @@ const TRANSPARENT = '0'
 @Component
 export default class Home extends Vue {
   private question: userQuestionPb.UserQuestion.GetRandomResponse | null = null
-  private addClassVisible = ''
   private selected = 0
+  private firstCount = 0
+  private secondCount = 0
   private firstPercent = 50
   private afterFirstPercent = 50
+  private afterSecondPercent = 50
+
+  // タイマ関係
   private nextCount = 5
   private resultTimer: NodeJS.Timeout | null = null
   private nextTimer: NodeJS.Timeout | null = null
+
+  // スタイル操作
+  private addClassVisible = ''
   private transparency = TRANSPARENT
 
   private async asyncData () {
@@ -101,6 +108,37 @@ export default class Home extends Vue {
     }
   }
 
+  private selectFirst () {
+    this.selected = 1
+    this.updateResult()
+  }
+
+  private selectSecond () {
+    this.selected = 2
+    this.updateResult()
+  }
+
+  private updateResult () {
+    // 質問データの更新
+
+    this.calculationResult()
+  }
+
+  // 表示結果の計算
+  private calculationResult () {
+    if (this.selected === 1) {
+      this.firstCount = this.question!.getFirstCount() + 1
+      this.secondCount = this.question!.getSecondCount()
+    } else if (this.selected === 2) {
+      this.firstCount = this.question!.getFirstCount()
+      this.secondCount = this.question!.getSecondCount() + 1
+    }
+    const totalCount = this.firstCount + this.secondCount
+    this.afterFirstPercent = Math.round(this.firstCount / totalCount * 100)
+    this.afterSecondPercent = 100 - this.afterFirstPercent
+    this.resultTimer = setInterval(this.dispResult, 10);
+  }
+
   // 結果表示
   private dispResult () {
     if (this.firstPercent === this.afterFirstPercent) {
@@ -122,31 +160,6 @@ export default class Home extends Vue {
       return
     }
     this.nextCount -= 1
-  }
-
-  private selectFirst () {
-    this.selected = 1
-    this.updateResult()
-  }
-
-  private selectSecond () {
-    this.selected = 2
-    this.updateResult()
-  }
-
-  private updateResult () {
-    // 質問データの更新
-
-    // 表示結果の計算
-    // 選択した方のcountを＋1して表示する
-    this.calculationResult()
-  }
-
-  private calculationResult () {
-    const firstCount = this.question!.getFirstCount()
-    const totalCount = this.question!.getFirstCount() + this.question!.getSecondCount()
-    this.afterFirstPercent = Math.round(firstCount / totalCount * 100)
-    this.resultTimer = setInterval(this.dispResult, 10);
   }
 
   private async refresh () {
