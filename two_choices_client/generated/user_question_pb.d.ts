@@ -20,6 +20,9 @@ export namespace UserQuestion {
   }
 
   export class GetRandomResponse extends jspb.Message {
+    getId(): number;
+    setId(value: number): void;
+
     getTitle(): string;
     setTitle(value: string): void;
 
@@ -53,6 +56,7 @@ export namespace UserQuestion {
 
   export namespace GetRandomResponse {
     export type AsObject = {
+      id: number,
       title: string,
       firstAnswer: string,
       secondAnswer: string,
@@ -60,6 +64,30 @@ export namespace UserQuestion {
       secondCount: number,
       firstImgUrl: string,
       secondImgUrl: string,
+    }
+  }
+
+  export class UpdateRequest extends jspb.Message {
+    getId(): number;
+    setId(value: number): void;
+
+    getIsFirstSelected(): boolean;
+    setIsFirstSelected(value: boolean): void;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): UpdateRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: UpdateRequest): UpdateRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: UpdateRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): UpdateRequest;
+    static deserializeBinaryFromReader(message: UpdateRequest, reader: jspb.BinaryReader): UpdateRequest;
+  }
+
+  export namespace UpdateRequest {
+    export type AsObject = {
+      id: number,
+      isFirstSelected: boolean,
     }
   }
 }

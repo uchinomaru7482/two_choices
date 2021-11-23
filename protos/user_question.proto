@@ -9,18 +9,26 @@ import "common.proto";
 // ユーザが質問を操作するサービス
 service UserQuestionService {
   rpc GetRandom (Empty) returns (UserQuestion.GetRandomResponse); // 質問ランダム取得
+  rpc Update (UserQuestion.UpdateRequest) returns (Empty); // 質問更新
 }
 
 // 質問
 message UserQuestion {
   // 質問ランダム取得レスポンス
   message GetRandomResponse {
-    string title = 1;
-    string first_answer = 2;
-    string second_answer = 3;
-    uint64 first_count = 4;
-    uint64 second_count = 5;
-    string first_img_url = 6;
-    string second_img_url = 7;
+    uint64 id = 1;
+    string title = 2;
+    string first_answer = 3;
+    string second_answer = 4;
+    uint64 first_count = 5;
+    uint64 second_count = 6;
+    string first_img_url = 7;
+    string second_img_url = 8;
+  }
+
+  // 質問更新リクエスト
+  message UpdateRequest {
+    uint64 id = 1;
+    bool is_first_selected = 2;
   }
 }

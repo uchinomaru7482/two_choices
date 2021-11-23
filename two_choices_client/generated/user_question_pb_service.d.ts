@@ -14,9 +14,19 @@ type UserQuestionServiceGetRandom = {
   readonly responseType: typeof user_question_pb.UserQuestion.GetRandomResponse;
 };
 
+type UserQuestionServiceUpdate = {
+  readonly methodName: string;
+  readonly service: typeof UserQuestionService;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof user_question_pb.UserQuestion.UpdateRequest;
+  readonly responseType: typeof common_pb.Empty;
+};
+
 export class UserQuestionService {
   static readonly serviceName: string;
   static readonly GetRandom: UserQuestionServiceGetRandom;
+  static readonly Update: UserQuestionServiceUpdate;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -59,6 +69,15 @@ export class UserQuestionServiceClient {
   getRandom(
     requestMessage: common_pb.Empty,
     callback: (error: ServiceError|null, responseMessage: user_question_pb.UserQuestion.GetRandomResponse|null) => void
+  ): UnaryResponse;
+  update(
+    requestMessage: user_question_pb.UserQuestion.UpdateRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: common_pb.Empty|null) => void
+  ): UnaryResponse;
+  update(
+    requestMessage: user_question_pb.UserQuestion.UpdateRequest,
+    callback: (error: ServiceError|null, responseMessage: common_pb.Empty|null) => void
   ): UnaryResponse;
 }
 
