@@ -1,5 +1,5 @@
 <template>
-  <div :class="'main-field bg ' + addClassVisible" :style="style">
+  <div :class="'main-field bg ' + classVisible" :style="style">
     <span class="content">
       <p class="next-count">{{ nextCount }}</p>
       <p class="question">{{ question.getTitle() }}</p>
@@ -38,7 +38,7 @@
         >
           <img 
             :src="question.getFirstImgUrl()"
-            class="ans-img"
+            :class="'ans-img ' + classFirstImg"
             alt="回答1"
             @click="selectFirst()"
           >
@@ -49,7 +49,7 @@
         >
           <img 
             :src="question.getSecondImgUrl()"
-            class="ans-img"
+            :class="'ans-img ' + classSecondImg"
             alt="回答2"
             @click="selectSecond()"
           >
@@ -64,7 +64,9 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import * as userQuestionPb from '@/generated/user_question_pb'
 import * as userQuestionService from '@/services/user_question'
 
-const CLASSNAME = '-visible'
+const CLASS_VISIBLE = 'visible'
+const CLASS_WIN = 'win'
+const CLASS_LOSE = 'lose'
 const OPAQUE = '100'
 const TRANSPARENT = '0'
 
@@ -84,7 +86,9 @@ export default class Home extends Vue {
   private nextTimer: NodeJS.Timeout | null = null
 
   // スタイル操作
-  private addClassVisible = ''
+  private classVisible = ''
+  private classFirstImg = ''
+  private classSecondImg = ''
   private transparency = TRANSPARENT
 
   private async asyncData () {
@@ -147,6 +151,15 @@ export default class Home extends Vue {
     if (this.firstPercent === this.afterFirstPercent) {
       clearInterval(this.resultTimer as NodeJS.Timeout)
       this.transparency = OPAQUE
+      if (this.isFirstSelected && this.firstCount >= this.secondCount) {
+        this.classFirstImg = CLASS_WIN
+      } else if (this.isFirstSelected && this.firstCount <= this.secondCount) {
+        this.classFirstImg = CLASS_LOSE
+      } else if (!this.isFirstSelected && this.firstCount <= this.secondCount) {
+        this.classSecondImg = CLASS_WIN
+      } else if (!this.isFirstSelected && this.firstCount >= this.secondCount) {
+        this.classSecondImg = CLASS_LOSE
+      }
       this.nextTimer = setInterval(this.nextQuestion, 1000);
     } else if (this.firstPercent > this.afterFirstPercent) {
       this.firstPercent -= 0.5
@@ -166,17 +179,21 @@ export default class Home extends Vue {
   }
 
   private async refresh () {
-    this.addClassVisible = ''
     this.question = await userQuestionService.GetRandom()
     this.firstPercent = 50
     this.afterFirstPercent = 50
     this.transparency = TRANSPARENT
     this.nextCount = 5
+
+    // 表示初期化
+    this.classVisible = ''
+    this.classFirstImg = ''
+    this.classSecondImg = ''
     setTimeout(this.setClass, 700)
   }
 
   private setClass () {
-    this.addClassVisible = CLASSNAME
+    this.classVisible = CLASS_VISIBLE
   }
 }
 </script>
