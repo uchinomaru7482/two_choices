@@ -30,11 +30,11 @@ jobs:
       - name: Build image
         run: >
           docker build
-          -t asia.gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME:${{ github.sha }}
-          -t asia.gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME .
+          -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME:${{ github.sha }}
+          -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME .
           -f ./docker/two_choices_client/Dockerfile.dev
 
       - name: Push image
         run: |
-          docker push asia.gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME:${{ github.sha }}
-          docker push asia.gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME:latest
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME:${{ github.sha }}
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME:latest
