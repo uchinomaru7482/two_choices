@@ -102,12 +102,10 @@
 }
 
 .content {
-    .question, .answer {
+  .question, .answer {
     display: block;
     opacity: 0;
-    transition: transform cubic-bezier(0.215, 0.61, 0.355, 1) 1s, opacity linear 0.6s;
     transform: translate(0, 40px);
-    transition-delay: 0.15s;
   }
 }
 
@@ -116,6 +114,8 @@
     .next-count, .question, .answer {
       opacity: 1;
       transform: translate(0, 0);
+      transition: transform cubic-bezier(0.215, 0.61, 0.355, 1) 1s, opacity linear 0.6s;
+      transition-delay: 0.15s;
     }
   }
 }
