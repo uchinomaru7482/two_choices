@@ -79,6 +79,7 @@ export default class Home extends Vue {
   private firstPercent = 50
   private afterFirstPercent = 50
   private afterSecondPercent = 50
+  private validButton = true
 
   // タイマ関係
   private nextCount = 5
@@ -113,11 +114,19 @@ export default class Home extends Vue {
   }
 
   private selectFirst () {
+    if (!this.validButton) {
+      return
+    }
+    this.validButton = false
     this.isFirstSelected = true
     this.updateResult()
   }
 
   private selectSecond () {
+    if (!this.validButton) {
+      return
+    }
+    this.validButton = false
     this.isFirstSelected = false
     this.updateResult()
   }
@@ -184,6 +193,7 @@ export default class Home extends Vue {
     this.afterFirstPercent = 50
     this.transparency = TRANSPARENT
     this.nextCount = 5
+    this.validButton = true
 
     // 表示初期化
     this.classVisible = ''
