@@ -4,8 +4,23 @@
       v-model="drawer"
       app
     >
-      <nuxt-link to="/">ホーム</nuxt-link>
-      <nuxt-link to="/auth/registration/">ユーザ登録画面</nuxt-link>
+      <v-list>
+        <v-list-item
+          v-for="[icon, text, link] in links"
+          :key="icon"
+          link
+        >
+          <nuxt-link :to="link" class="link">
+            <v-list-item-icon>
+              <v-icon>{{ icon }}</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>{{ text }}</v-list-item-title>
+            </v-list-item-content>
+          </nuxt-link>
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
 
     <v-app-bar app>
@@ -28,6 +43,13 @@
 
 <script>
   export default {
-    data: () => ({ drawer: null }),
+    data: () => ({ 
+      drawer: null,
+      links: [
+        ['mdi-home', 'ホーム', '/'],
+        ['mdi-account', '会員登録', '/auth/registration/'],
+        ['mdi-bell', 'お知らせ', '/notification/list'],
+      ],
+    }),
   }
 </script>

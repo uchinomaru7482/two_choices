@@ -1,3 +1,14 @@
+// サイドバー
+
+.link {
+  color: #333 !important;
+  display: flex;
+}
+
+.link:hover {
+  text-decoration: none;
+}
+
 // デフォルトページ
 
 .main-field {
@@ -119,3 +130,5 @@
     }
   }
 }
+
+// 会員登録ページ
