@@ -8,6 +8,7 @@ require (
 	cloud.google.com/go/storage v1.16.1 // indirect
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/denisenkom/go-mssqldb v0.10.0 // indirect
+	github.com/go-playground/assert/v2 v2.0.1
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
