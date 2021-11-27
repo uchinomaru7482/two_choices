@@ -78,6 +78,11 @@ jobs:
           -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$CLIENT_USER_NAME .
           -f ./docker/two_choices_client/Dockerfile.dev
 
+      - name: Push client user image
+        run: |
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$CLIENT_USER_NAME:${{ github.sha }}
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$CLIENT_USER_NAME:latest
+
       - name: Build server image
         run: >
           docker build
@@ -85,22 +90,17 @@ jobs:
           -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVER_NAME .
           -f ./docker/two_choices_client/Dockerfile.dev
 
+      - name: Push server image
+        run: |
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVER_NAME:${{ github.sha }}
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVER_NAME:latest
+
       - name: Build db image
         run: >
           docker build
           -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$DB_NAME:${{ github.sha }}
           -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$DB_NAME .
           -f ./docker/mysql/Dockerfile
-
-      - name: Push client user image
-        run: |
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$CLIENT_USER_NAME:${{ github.sha }}
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$CLIENT_USER_NAME:latest
-
-      - name: Push server image
-        run: |
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVER_NAME:${{ github.sha }}
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVER_NAME:latest
 
       - name: Push db image
         run: |
