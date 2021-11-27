@@ -1,4 +1,4 @@
-name: client_build
+name: test and build
 
 on:
   pull_request:
@@ -43,8 +43,8 @@ jobs:
           ENV: "local"
           #TODO publicなので環境変数の取り扱いについて要検討
 
-      run: go test -v ./... -count=1
-      working-directory: ./two_choices_server
+        run: go test -v ./... -count=1
+        working-directory: ./two_choices_server
 
   build-and-push:
     runs-on: ubuntu-latest
