@@ -15,10 +15,10 @@ func LoadRDBConfig() (*rdb.Config, error) {
 	if rdbConfig.SlaveHost, err = utils.GetStringFromEnv("SLAVE_DB_HOST"); err != nil {
 		return nil, err
 	}
-	if rdbConfig.Name, err = utils.GetStringFromEnv("DB_PORT"); err != nil {
+	if rdbConfig.Port, err = utils.GetIntFromEnv("DB_PORT"); err != nil {
 		return nil, err
 	}
-	if rdbConfig.Port, err = utils.GetIntFromEnv("DB_NAME"); err != nil {
+	if rdbConfig.Name, err = utils.GetStringFromEnv("DB_NAME"); err != nil {
 		return nil, err
 	}
 	if rdbConfig.User, err = utils.GetStringFromEnv("DB_USER"); err != nil {

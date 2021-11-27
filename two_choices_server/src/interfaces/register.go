@@ -25,5 +25,10 @@ func RegisterServices(ctx context.Context, s *grpc.Server, appConfig *configs.Ap
 	userAuthenticationHandler := interfaces.NewUserAuthenticationHandler(userAuthenticationUseCase, appConfig, rdbExector, firebaseApp)
 	pb.RegisterUserAuthenticationServiceServer(s, userAuthenticationHandler)
 
+	questionPersistence := persistence.NewQuestionPersistence()
+	questionUseCase := usecase.NewQuestionUseCase(questionPersistence)
+	userQuestionHandler := interfaces.NewUserQuestionHandler(questionUseCase, appConfig, rdbExector)
+	pb.RegisterUserQuestionServiceServer(s, userQuestionHandler)
+
 	return nil
 }

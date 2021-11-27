@@ -1,9 +1,10 @@
-FROM node:16.3.0 as builder
+FROM node:14.17.3 as builder
 
 WORKDIR /app
 COPY ./two_choices_client /app
 
 RUN cd /app/ && \
+    npm cache verify && \
     npm install && \
     npm run build && \
     npm run generate
