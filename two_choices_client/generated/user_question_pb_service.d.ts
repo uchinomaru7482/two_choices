@@ -5,6 +5,15 @@ import * as user_question_pb from "./user_question_pb";
 import * as common_pb from "./common_pb";
 import {grpc} from "@improbable-eng/grpc-web";
 
+type UserQuestionServiceEcho = {
+  readonly methodName: string;
+  readonly service: typeof UserQuestionService;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof user_question_pb.UserQuestion.EchoRequest;
+  readonly responseType: typeof user_question_pb.UserQuestion.EchoResponse;
+};
+
 type UserQuestionServiceGetRandom = {
   readonly methodName: string;
   readonly service: typeof UserQuestionService;
@@ -25,6 +34,7 @@ type UserQuestionServiceUpdate = {
 
 export class UserQuestionService {
   static readonly serviceName: string;
+  static readonly Echo: UserQuestionServiceEcho;
   static readonly GetRandom: UserQuestionServiceGetRandom;
   static readonly Update: UserQuestionServiceUpdate;
 }
@@ -61,6 +71,15 @@ export class UserQuestionServiceClient {
   readonly serviceHost: string;
 
   constructor(serviceHost: string, options?: grpc.RpcOptions);
+  echo(
+    requestMessage: user_question_pb.UserQuestion.EchoRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: user_question_pb.UserQuestion.EchoResponse|null) => void
+  ): UnaryResponse;
+  echo(
+    requestMessage: user_question_pb.UserQuestion.EchoRequest,
+    callback: (error: ServiceError|null, responseMessage: user_question_pb.UserQuestion.EchoResponse|null) => void
+  ): UnaryResponse;
   getRandom(
     requestMessage: common_pb.Empty,
     metadata: grpc.Metadata,

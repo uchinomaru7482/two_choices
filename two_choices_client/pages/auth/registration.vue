@@ -1,45 +1,45 @@
 <template>
   <v-container>
     <v-sheet
-              rounded="lg"
-              min-height="200"
-              max-width="700"
-              outlined
-              class="p-5 my-3 mx-auto"
-            >
-  <div class="main-field">
-    <h1 class="page-title">ユーザ新規登録</h1>
-    <p v-if="errMsg">{{ errMsg }}</p>
-    <v-form>
-      <v-text-field
-        class="mt-5"
-        v-model="name"
-        counter="20"
-        label="名前"
-      />
-      <v-text-field
-        class="mt-5"
-        v-model="mailAddress"
-        counter="50"
-        label="メールアドレス"
-      />
-      <v-text-field
-        class="mt-5"
-        v-model="password"
-        counter="20"
-        label="パスワード"
-      />
-      <v-btn
-        class="mt-5"
-        color="primary"
-        elevation="2"
-        outlined
-        @click="signUp"
-      >
-        新規登録
-      </v-btn>
-    </v-form>
-  </div>
+      rounded="lg"
+      min-height="200"
+      max-width="700"
+      outlined
+      class="p-5 my-3 mx-auto"
+    >
+      <div class="main-field">
+        <h1 class="page-title">ユーザ新規登録</h1>
+        <p v-if="errMsg">{{ errMsg }}</p>
+        <v-form>
+          <v-text-field
+            class="mt-5"
+            v-model="name"
+            counter="20"
+            label="名前"
+          />
+          <v-text-field
+            class="mt-5"
+            v-model="mailAddress"
+            counter="50"
+            label="メールアドレス"
+          />
+          <v-text-field
+            class="mt-5"
+            v-model="password"
+            counter="20"
+            label="パスワード"
+          />
+          <v-btn
+            class="mt-5"
+            color="primary"
+            elevation="2"
+            outlined
+            @click="signUp"
+          >
+            新規登録
+          </v-btn>
+        </v-form>
+      </div>
     </v-sheet>
   </v-container>
 </template>

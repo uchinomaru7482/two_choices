@@ -2,6 +2,7 @@ package interfaces
 
 import (
 	"context"
+	"fmt"
 	"two_choices/configs"
 	"two_choices/pkg/rdb"
 	"two_choices/src/domain"
@@ -11,6 +12,7 @@ import (
 )
 
 type UserQuestionHandler interface {
+	Echo(ctx context.Context, in *pb.UserQuestion_EchoRequest) (*pb.UserQuestion_EchoResponse, error)
 	GetRandom(ctx context.Context, in *pb.Empty) (*pb.UserQuestion_GetRandomResponse, error)
 	Update(ctx context.Context, in *pb.UserQuestion_UpdateRequest) (*pb.Empty, error)
 }
@@ -27,6 +29,15 @@ func NewUserQuestionHandler(qu usecase.QuestionUseCase, appConfig *configs.AppCo
 		appConfig:       appConfig,
 		RDB:             rdbExector,
 	}
+}
+
+// Echo - 疎通確認
+func (uqh userQuestionHandler) Echo(ctx context.Context, in *pb.UserQuestion_EchoRequest) (*pb.UserQuestion_EchoResponse, error) {
+	var err error
+	message := fmt.Sprintf("msg: %s", in.Msg)
+	return &pb.UserQuestion_EchoResponse{
+		Msg: message,
+	}, err
 }
 
 // GetRandom - 質問をランダムに取得
