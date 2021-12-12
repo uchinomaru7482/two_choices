@@ -18,7 +18,7 @@ export const CallAPI = async <TReq extends ProtobufMessage, TRes extends Protobu
   const fun = new Promise((resolve, reject) => {
     grpc.invoke(method, {
       request: req,
-      host: "http://localhost:8080",
+      host: process.env.GRPC_ENDPOINT as string,
       metadata: metadata,
       onMessage: (res: TRes) => {
         resolve(res)
