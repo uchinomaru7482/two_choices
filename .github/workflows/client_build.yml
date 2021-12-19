@@ -71,11 +71,10 @@ jobs:
       - name: Configure docker
         run: gcloud auth configure-docker --quiet
 
-      - name: SettingConfig
+      - name: SettingClientConfig
         run: |
           touch ./two_choices_client/.env
           echo "GRPC_ENDPOINT=${{ secrets.CLIENT_GRPC_ENDPOINT }}" >> ./two_choices_client/.env
-          cat ./two_choices_client/.env
         
       - name: Build client user image
         run: >
