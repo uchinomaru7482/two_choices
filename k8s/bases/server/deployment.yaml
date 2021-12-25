@@ -33,7 +33,7 @@ spec:
           mountPath: /etc/secret
         imagePullPolicy: Always
         ports:
-          - containerPort: 3000
+          - containerPort: 50051
       volumes:
       - name: volume-secret
         secret:
