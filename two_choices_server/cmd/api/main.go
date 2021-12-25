@@ -43,7 +43,7 @@ func main() {
 	redis.InitPool()
 	cache.Redis = redis
 
-	lis, err := net.Listen("tcp", ":9090")
+	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
