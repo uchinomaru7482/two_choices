@@ -18,7 +18,9 @@ spec:
         envFrom:
         - secretRef:
             name: server-secret
-        # TODO config setting
+        - configMapRef:
+            name: server-config
+        # TODO secret config setting
         # - configMapRef:
         #   name: server-config
         # env:

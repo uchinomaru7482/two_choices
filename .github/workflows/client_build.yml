@@ -93,7 +93,7 @@ jobs:
           docker build
           -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVER_NAME:${{ github.sha }}
           -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVER_NAME .
-          -f ./docker/two_choices_client/Dockerfile.dev
+          -f ./docker/two_choices_server/Dockerfile.dev
 
       - name: Push server image
         run: |
