@@ -27,4 +27,7 @@ CREATE TABLE `questions` (
   PRIMARY KEY (`id`)
 );
 
+INSERT INTO `app_develop`.`questions` (`id`, `created_at`, `updated_at`, `title`, `first_answer`, `second_answer`, `first_count`, `second_count`, `first_img_url`, `second_img_url`) VALUES ('1', '2021-11-21 03:32:58', '2021-12-11 16:36:57', '犬派?それとも猫派?', 'いぬ', 'ねこ', '46', '76', '/images/answer_img/dog.png', '/images/answer_img/cat.png');
+INSERT INTO `app_develop`.`questions` (`id`, `created_at`, `updated_at`, `title`, `first_answer`, `second_answer`, `first_count`, `second_count`, `first_img_url`, `second_img_url`) VALUES ('2', '2021-11-21 03:32:58', '2021-12-11 16:36:39', 'きのこ派?それともたけのこ派?', 'きのこ', 'たけのこ', '118', '79', '/images/answer_img/mushroom.png', '/images/answer_img/bambooshoot.png');
+
 -- +migrate Down
