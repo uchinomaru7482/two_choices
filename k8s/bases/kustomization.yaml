@@ -5,6 +5,7 @@ resources:
 - envoy/service.yaml
 - server/deployment.yaml
 - server/service.yaml
+- ./certificate.yaml
 - ./ingress.yaml
 
 configMapGenerator:

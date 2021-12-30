@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1beta2
+kind: ManagedCertificate
+metadata:
+  name: two-choices-dev-certificate
+spec:
+  domains:
+  - www.twochoices.site
+  - api.twochoices.site

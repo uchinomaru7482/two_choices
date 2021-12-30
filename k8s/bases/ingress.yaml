@@ -4,6 +4,7 @@ metadata:
   name: two-choices-ingress
   annotations:
     kubernetes.io/ingress.global-static-ip-name: two-choices-dev-ip
+    networking.gke.io/managed-certificates: two-choices-dev-certificate
 
 spec:
   defaultBackend:
