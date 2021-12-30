@@ -36,6 +36,18 @@ spec:
         imagePullPolicy: Always
         ports:
           - containerPort: 50051
+      - name: mysql
+        image: mysql
+        envFrom:
+        - configMapRef:
+            name: mysql-config
+        volumeMounts:
+        - name: volume-mysql
+          readOnly: true
+          mountPath: /docker-entrypoint-initdb.d
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 3306
       volumes:
       - name: volume-secret
         secret:
@@ -43,3 +55,9 @@ spec:
           items:
           - key: firebase-admin-sdk.json
             path: firebase-admin-sdk.json
+      - name: volume-mysql
+        configMap:
+          name: mysql-config
+          items:
+          - key: init.sql
+            path: init.sql

@@ -20,6 +20,10 @@ configMapGenerator:
 - name: server-config
   env: server/config.env
   behavior: merge
+- name: mysql-config
+  env: mysql/config.env
+  files:
+  - mysql/init.sql
 
 images:
 - name: client
@@ -28,3 +32,5 @@ images:
 - name: server
   newName: gcr.io/two_choices_dev/server
   newTag: "latest"
+- name: mysql
+  newName: gcr.io/two_choices_dev/mysql
