@@ -11,6 +11,15 @@ var UserQuestionService = (function () {
   return UserQuestionService;
 }());
 
+UserQuestionService.Echo = {
+  methodName: "Echo",
+  service: UserQuestionService,
+  requestStream: false,
+  responseStream: false,
+  requestType: user_question_pb.UserQuestion.EchoRequest,
+  responseType: user_question_pb.UserQuestion.EchoResponse
+};
+
 UserQuestionService.GetRandom = {
   methodName: "GetRandom",
   service: UserQuestionService,
@@ -35,6 +44,37 @@ function UserQuestionServiceClient(serviceHost, options) {
   this.serviceHost = serviceHost;
   this.options = options || {};
 }
+
+UserQuestionServiceClient.prototype.echo = function echo(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(UserQuestionService.Echo, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
 
 UserQuestionServiceClient.prototype.getRandom = function getRandom(requestMessage, metadata, callback) {
   if (arguments.length === 2) {

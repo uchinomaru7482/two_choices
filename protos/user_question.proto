@@ -8,12 +8,23 @@ import "common.proto";
 
 // ユーザが質問を操作するサービス
 service UserQuestionService {
+  rpc Echo (UserQuestion.EchoRequest) returns (UserQuestion.EchoResponse); // 疎通確認
   rpc GetRandom (Empty) returns (UserQuestion.GetRandomResponse); // 質問ランダム取得
   rpc Update (UserQuestion.UpdateRequest) returns (Empty); // 質問更新
 }
 
 // 質問
 message UserQuestion {
+  // 疎通確認リクエスト
+  message EchoRequest {
+    string msg = 1;
+  }
+
+  // 疎通確認レスポンス
+  message EchoResponse {
+    string msg = 2;
+  }
+  
   // 質問ランダム取得レスポンス
   message GetRandomResponse {
     uint64 id = 1;

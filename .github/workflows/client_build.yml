@@ -52,7 +52,9 @@ jobs:
     needs: test
 
     env:
-      SERVICE_NAME: client
+      CLIENT_USER_NAME: client_user
+      SERVER_NAME: server
+      DB_NAME: mysql
 
     steps:
       - name: Checkout
@@ -68,15 +70,44 @@ jobs:
 
       - name: Configure docker
         run: gcloud auth configure-docker --quiet
+
+      - name: SettingClientConfig
+        run: |
+          touch ./two_choices_client/.env
+          echo "GRPC_ENDPOINT=${{ secrets.CLIENT_GRPC_ENDPOINT }}" >> ./two_choices_client/.env
         
-      - name: Build image
+      - name: Build client user image
         run: >
           docker build
-          -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME:${{ github.sha }}
-          -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME .
+          -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$CLIENT_USER_NAME:${{ github.sha }}
+          -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$CLIENT_USER_NAME .
           -f ./docker/two_choices_client/Dockerfile.dev
 
-      - name: Push image
+      - name: Push client user image
         run: |
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME:${{ github.sha }}
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME:latest
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$CLIENT_USER_NAME:${{ github.sha }}
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$CLIENT_USER_NAME:latest
+
+      - name: Build server image
+        run: >
+          docker build
+          -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVER_NAME:${{ github.sha }}
+          -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVER_NAME .
+          -f ./docker/two_choices_server/Dockerfile.dev
+
+      - name: Push server image
+        run: |
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVER_NAME:${{ github.sha }}
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVER_NAME:latest
+
+      - name: Build db image
+        run: >
+          docker build
+          -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$DB_NAME:${{ github.sha }}
+          -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/$DB_NAME .
+          -f ./docker/mysql/Dockerfile
+
+      - name: Push db image
+        run: |
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$DB_NAME:${{ github.sha }}
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/$DB_NAME:latest

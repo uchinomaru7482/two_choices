@@ -2,6 +2,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: two-choices-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: two-choices-dev-ip
+    networking.gke.io/managed-certificates: two-choices-dev-certificate
 
 spec:
   defaultBackend:
@@ -9,3 +12,22 @@ spec:
       name: client-service
       port:
         number: 3000
+  rules:
+  - host: api.twochoices.site
+    http:
+      paths:
+      - backend:
+          service:
+            name: envoy-service
+            port: 
+              number: 8080
+        pathType: ImplementationSpecific
+  - host: www.twochoices.site
+    http:
+      paths:
+      - backend:
+          service:
+            name: client-service
+            port: 
+              number: 3000
+        pathType: ImplementationSpecific

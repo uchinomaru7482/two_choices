@@ -1,5 +1,6 @@
 two_choices_server/tmp/
 two_choices_server/configs/secret/
+k8s/overlay/dev/secret/
 
 .DS_store
 *.env
