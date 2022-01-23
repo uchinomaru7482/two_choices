@@ -30,10 +30,11 @@ https://www.twochoices.site
   - サーバ、クライアント、DBのコンテナイメージをビルドし、GCP Container Registoryへpush
 - GCP
 - Kubernetes
+  - 複数環境の構築を想定し、kustomizeを使用
 #### 【その他】
 - Firebase Authentication
 - SendGrid
 
-## 【インフラ構成】
+## インフラ構成
 - DBは仮の為、ServerのPod内にMySQLコンテナを立てており、データの永続化は行っておりません
 ![two_choices](https://user-images.githubusercontent.com/64344576/147831621-8c9d2653-d07b-4af5-acda-f0437f393404.png)

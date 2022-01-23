@@ -48,7 +48,6 @@
       links: [
         ['mdi-home', 'ホーム', '/'],
         ['mdi-account', '会員登録', '/auth/registration/'],
-        ['mdi-bell', 'お知らせ', '/notification/list'],
       ],
     }),
   }
