@@ -6,6 +6,8 @@ https://www.twochoices.site
 実務で経験した技術の復習及び、Github Actions、Kubernetes等の技術を勉強することを目的として作成しました。
 学習の記録として、ソースコード内各所に不要なコメントが残っておりますが、ご容赦下さい。
 
+https://user-images.githubusercontent.com/64344576/167633831-403ed6c3-e1ba-42f7-94c3-03cf4bce5afd.mov
+
 ## 使用技術
 
 #### 【サーバ】
